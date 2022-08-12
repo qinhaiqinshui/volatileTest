@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<turboFilter class="com.example.demo.log.MDCTurboFilter" />
+
+	<!-- 日志存放路径 -->
+	<property name="log.path" value="${user.home}/logs/demo1" />
+    <!-- 日志输出格式 -->
+	<property name="log.pattern" value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{20} - [%method,%line] - %msg%n" />
+
+	<!-- 控制台输出 -->
+	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>${log.pattern}</pattern>
+		</encoder>
+	</appender>
+	<appender name="analysis" class="ch.qos.logback.classic.sift.SiftingAppender">
+		<discriminator>
+			<key>analysisId</key>
+			<defaultValue>default</defaultValue>
+		</discriminator>
+		<sift>
+			<!--具体的写日志appender，每一个taskId创建一个文件-->
+			<appender name="analysis" class="ch.qos.logback.core.FileAppender">
+				<file>${log.path}/analysis/${analysisId}.log</file>
+				<encoder>
+					<pattern>${log.pattern}</pattern>
+				</encoder>
+
+			</appender>
+		</sift>
+	</appender>
+	<root level="info">
+		<appender-ref ref="console" />
+	</root>
+<!--	单独保存推荐模块的日志-->
+	<logger name="com.example.demo.service" level="debug" additivity="false" >
+		<appender-ref ref="analysis"/>
+		<appender-ref ref="console" />
+	</logger>
+
+</configuration> 
