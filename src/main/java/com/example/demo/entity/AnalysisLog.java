@@ -6,8 +6,8 @@ public class AnalysisLog {
     public static AnalysisLog getCurrentAnalysis() {
         return currentAnalysis;
     }
-    public static void setCurrentAnalysis(AnalysisLog currentAnalysis) {
-        currentAnalysis = currentAnalysis;
+    public static void setCurrentAnalysis(AnalysisLog analysis) {
+        currentAnalysis = analysis;
     }
 
     private Long id;
